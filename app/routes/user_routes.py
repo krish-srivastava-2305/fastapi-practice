@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Query
+from fastapi import APIRouter, Query, Response
 from pydantic import BaseModel
 from typing import Annotated
 from app.controllers.user_controllers import user_creator
@@ -13,5 +13,5 @@ class User(BaseModel):
 
 
 @user_router.post("/register")
-async def create_user(user: User):
-    return await user_creator(user)
+async def create_user(user: User, response: Response):
+    return await user_creator(user, response)

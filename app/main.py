@@ -6,8 +6,8 @@ from app.routes.user_routes import user_router
 app = FastAPI()
 
 @app.on_event("startup")
-def on_startup():
-    create_db_and_tables()
+async def on_startup():
+    await create_db_and_tables()
 
 allowed_origins = [
     "http://localhost:3000",

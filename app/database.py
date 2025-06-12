@@ -1,12 +1,18 @@
-from sqlmodel import create_engine, Session, SQLModel
-from app.schema import User, Post  
+import asyncio
+from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
+from sqlmodel import SQLModel
+from contextlib import asynccontextmanager
+from typing import AsyncGenerator
 
-DATABASE_URL = "sqlite:///./test.db"
-engine = create_engine(DATABASE_URL, echo=True)
+DATABASE_URL = "sqlite+aiosqlite:///./test.db"
+engine = create_async_engine(DATABASE_URL, echo=True)
+async_session_factory = async_sessionmaker(engine, expire_on_commit=False)
 
-def create_db_and_tables():
-    SQLModel.metadata.create_all(engine)
+async def create_db_and_tables():
+    async with engine.begin() as conn:
+        await conn.run_sync(SQLModel.metadata.create_all)
 
-def get_session(): 
-    """Get a new SQLModel session."""
-    return Session(engine)
+@asynccontextmanager
+async def get_session() -> AsyncGenerator[AsyncSession, None]:
+    async with async_session_factory() as session:
+        yield session
