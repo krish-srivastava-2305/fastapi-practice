@@ -1,5 +1,5 @@
 from sqlmodel import create_engine, Session, SQLModel
-from schema import User, Post  
+from app.schema import User, Post  
 
 DATABASE_URL = "sqlite:///./test.db"
 engine = create_engine(DATABASE_URL, echo=True)

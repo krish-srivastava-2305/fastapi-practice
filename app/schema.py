@@ -23,4 +23,4 @@ class Post(BaseModel, table=True):
     media_url: Optional[str] = None
 
     author_id: int = Field(foreign_key="user.id", nullable=False)
-    author: Optional[User] = Relationship(back_populates="posts")
+    author: Optional[User] = Relationship()
