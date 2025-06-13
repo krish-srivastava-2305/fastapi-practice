@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.database import create_db_and_tables
 from app.routes.user_routes import user_router
+from app.routes.post_routes import post_router
 
 app = FastAPI()
 
@@ -28,3 +29,4 @@ def read_root():
     return {"message": "Healthy!"}
 
 app.include_router(user_router)
+app.include_router(post_router)

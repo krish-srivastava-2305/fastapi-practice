@@ -26,7 +26,7 @@ async def user_creator(user: User, response: Response):
     user.password = hashed_password
     user = await create_user(user)
 
-    token = create_jwt_token(user.email)
+    token = create_jwt_token(user.id)
     response.set_cookie(key="access_token", value=token, httponly=True)
 
     return {
@@ -50,8 +50,8 @@ async def user_login(user: UserLogin, response: Response):
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect password"
         )
-
-    token = create_jwt_token(existing_user.email)
+    
+    token = create_jwt_token(existing_user.id)
     response.set_cookie(key="access_token", value=token, httponly=True)
 
     return {
